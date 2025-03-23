@@ -19,4 +19,4 @@ samples, guidance on mobile development, and a full API reference.
 ![Home Screen](assets/screenshot/Screenshot_home.png)
 
 ### Tampilan Login
-![Login Screen](assets/screenshot/Screenshot_login.png
+![Login Screen](assets/screenshot/Screenshot_login.png)
