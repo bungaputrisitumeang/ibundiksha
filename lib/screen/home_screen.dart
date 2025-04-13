@@ -1,10 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:ibundiksha/screen/saldo_screen.dart';
+import 'package:ibundiksha/screen/transfer_screen.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
   @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  bool _isVisible = false;
+  @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -58,7 +67,30 @@ class HomeScreen extends StatelessWidget {
                             'Total Saldo Anda',
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
-                          Text('Rp. 1.200.0000'),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+
+                              Text(
+                                _isVisible ? 'Rp. 82.200.000' : 'Rp. ******',
+                                style: TextStyle(fontSize: 20),
+                              ),
+                              // SizedBox(width: 10),
+                              IconButton(
+                                icon: Icon(
+                                  _isVisible
+                                      ? Icons.visibility
+                                      : Icons.visibility_off,
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    _isVisible = !_isVisible;
+                                  });
+                                },
+                              ),
+                            ],
+                          ),
+                          // Text('Rp. 1.200.0000'),
                         ],
                       ),
                     ),
@@ -75,12 +107,12 @@ class HomeScreen extends StatelessWidget {
                 mainAxisSpacing: 10,
                 crossAxisSpacing: 10,
                 children: [
-                  _buildMenuItem(Icons.account_balance_wallet, 'Cek Saldo'),
-                  _buildMenuItem(Icons.swap_horiz, 'Transfer'),
-                  _buildMenuItem(Icons.savings, 'Deposito'),
-                  _buildMenuItem(Icons.payment, 'Pembayaran'),
-                  _buildMenuItem(Icons.attach_money, 'Pinjaman'),
-                  _buildMenuItem(Icons.history, 'Mutasi'),
+                  _buildMenuItem(Icons.account_balance_wallet, 'Cek Saldo', const SaldoScreen()),
+                  _buildMenuItem(Icons.swap_horiz, 'Transfer', const TransferScreen() ),
+                  _buildMenuItem(Icons.savings, 'Deposito', const TransferScreen()),
+                  _buildMenuItem(Icons.payment, 'Pembayaran', const TransferScreen()),
+                  _buildMenuItem(Icons.attach_money, 'Pinjaman', const TransferScreen()),
+                  _buildMenuItem(Icons.history, 'Mutasi', const TransferScreen()),
                 ],
               ),
             ),
@@ -113,16 +145,28 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildMenuItem(IconData icon, String label) {
-    return Column(
+Widget _buildMenuItem(IconData icon, String label, Widget? destination) {
+  return InkWell(
+    onTap: () {
+      if (destination != null) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => destination),
+        );
+      }
+    },
+    borderRadius: BorderRadius.circular(10),
+    child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Icon(icon, size: 40, color: Colors.blue[900]),
         SizedBox(height: 5),
         Text(label, textAlign: TextAlign.center),
       ],
-    );
-  }
+    ),
+  );
+}
+
 
   Widget _buildBottomMenuItem(IconData icon, String label) {
     return Column(
@@ -131,5 +175,7 @@ class HomeScreen extends StatelessWidget {
         Icon(icon, size: 40, color: Colors.blue[900]),
         if (label.isNotEmpty) SizedBox(height: 5),
         if (label.isNotEmpty) Text(label),
-     ],);}
+      ],
+    );
+  }
 }

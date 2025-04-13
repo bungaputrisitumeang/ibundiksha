@@ -1,12 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:ibundiksha/screen/home_screen.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
   @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  final _formKey = GlobalKey<FormState>();
+  bool _isPasswordVisible = false;
+
+  @override
   Widget build(BuildContext context) {
-    final _formKey = GlobalKey<FormState>();
     return Scaffold(
       appBar: AppBar(
         title: Text("Koperasi Undiksha", style: TextStyle(color: Colors.white)),
@@ -46,16 +53,28 @@ class LoginScreen extends StatelessWidget {
                         ),
                         SizedBox(height: 10),
                         TextFormField(
-                          obscureText: true,
+                          obscureText: !_isPasswordVisible,
                           decoration: InputDecoration(
                             labelText: 'Password',
                             border: OutlineInputBorder(),
+                            suffixIcon: IconButton(
+                              icon: Icon(
+                                _isPasswordVisible
+                                    ? Icons.visibility
+                                    : Icons.visibility_off,
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  _isPasswordVisible = !_isPasswordVisible;
+                                });
+                              },
+                            ),
                           ),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Silahkan masukan Password';
                             }
-                            if(value.length < 8 ) {
+                            if (value.length < 8) {
                               return 'Password kurang dari 8 karakter';
                             }
                             return null;
@@ -72,22 +91,40 @@ class LoginScreen extends StatelessWidget {
                           ),
                           onPressed: () {
                             if (_formKey.currentState!.validate()) {
-                              // If the form is valid, display a snackbar. In the real world,
-                              // you'd often call a server or save the information in a database.
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text('Processing Data'),
-                                ),
+                              // Tampilkan dialog loading
+                              showDialog(
+                                context: context,
+                                barrierDismissible: false,
+                                builder: (BuildContext context) {
+                                  return Dialog(
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(20),
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          CircularProgressIndicator(),
+                                          SizedBox(width: 20),
+                                          Text("Loading..."),
+                                        ],
+                                      ),
+                                    ),
+                                  );
+                                },
                               );
-                              Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const HomeScreen(),
-                              ),
-                            );
+
+                              // Kasih delay sebelum pindah halaman, pakai Future.delayed
+                              Future.delayed(Duration(seconds: 2), () {
+                                Navigator.of(context).pop(); // Tutup loading
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const HomeScreen(),
+                                  ),
+                                );
+                              });
                             }
-                            
                           },
+
                           child: Text(
                             'Login',
                             style: TextStyle(color: Colors.white),
