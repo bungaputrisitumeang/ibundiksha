@@ -20,6 +20,7 @@ class TransferScreen extends StatefulWidget {
 
 class _TransferScreenState extends State<TransferScreen> {
   final TextEditingController _controller = TextEditingController();
+  final TextEditingController _rekeningTujuanController = TextEditingController();
   final List<String> _bankList = [
     'Mandiri', 'BNI', 'BRI', 'BCA', 'BPD Bali', 'BSI', 'Danamon', 'SeaBank', 'Bank Jago', 'DANA', 'OVO', 'GOPAY', 'Jenius'
   ];
@@ -41,6 +42,12 @@ class _TransferScreenState extends State<TransferScreen> {
 
   void _transfer() {
     int jumlahTransfer = int.tryParse(_controller.text) ?? 0;
+    String nomorRekeningTujuan = _rekeningTujuanController.text.trim();
+
+    if (nomorRekeningTujuan.isEmpty) {
+      _showPopup('Nomor rekening tujuan tidak boleh kosong');
+      return;
+    }
 
     if (jumlahTransfer < 10000) {
       _showPopup('Minimal transfer adalah Rp 10.000');
@@ -54,7 +61,7 @@ class _TransferScreenState extends State<TransferScreen> {
         context: context,
         builder: (_) => AlertDialog(
           title: Text('Transfer Berhasil'),
-          content: Text('Rp ${NumberFormat.decimalPattern('id').format(jumlahTransfer)} telah ditransfer ke $selectedBank'),
+          content: Text('Rp ${NumberFormat.decimalPattern('id').format(jumlahTransfer)} telah ditransfer ke rekening $nomorRekeningTujuan dari bank $selectedBank'),
           actions: [
             TextButton(
               onPressed: () {
@@ -131,6 +138,15 @@ class _TransferScreenState extends State<TransferScreen> {
               ),
             ),
             SizedBox(height: 20),
+            TextField(
+              controller: _rekeningTujuanController,
+              keyboardType: TextInputType.number,
+              decoration: InputDecoration(
+                labelText: 'Nomor Rekening Tujuan',
+                border: OutlineInputBorder(),
+              ),
+            ),
+             SizedBox(height: 20),
             TextField(
               controller: _controller,
               keyboardType: TextInputType.number,

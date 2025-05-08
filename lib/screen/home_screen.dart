@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:ibundiksha/widget/pop_up_widget.dart';
 import 'package:intl/intl.dart';
 import 'transfer_screen.dart';
 import 'cek_saldo_screen.dart'; // Pastikan import ini ada
 
 String formatRupiah(int angka) {
-  final formatter = NumberFormat.currency(locale: 'id_ID', symbol: '', decimalDigits: 0);
-  return formatter.format(angka).replaceAll(',', '.') + ',00';
+  final formatter = NumberFormat.currency(
+    locale: 'id_ID',
+    symbol: '',
+    decimalDigits: 2,
+  );
+  return '${formatter.format(angka).replaceAll(',', '.')},00';
 }
 
 class HomeScreen extends StatefulWidget {
@@ -46,14 +51,18 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   const Text(
                     'Koperasi Undiksha',
-                    style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   const Icon(Icons.menu, color: Colors.white),
                 ],
               ),
             ),
             const SizedBox(height: 10),
-            
+
             // Bagian informasi nasabah dan saldo
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -74,19 +83,29 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text('Nasabah', style: TextStyle(fontWeight: FontWeight.bold)),
+                          const Text(
+                            'Nasabah',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
                           const Text('Bunga Putri Situmeang'),
                           const SizedBox(height: 5),
-                          const Text('Total Saldo Anda', style: TextStyle(fontWeight: FontWeight.bold)),
+                          const Text(
+                            'Total Saldo Anda',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                _isVisible ? 'Rp ${formatRupiah(saldo)}' : 'Rp ******',
+                                _isVisible ? formatRupiah(saldo) : '******',
                                 style: const TextStyle(fontSize: 20),
                               ),
                               IconButton(
-                                icon: Icon(_isVisible ? Icons.visibility : Icons.visibility_off),
+                                icon: Icon(
+                                  _isVisible
+                                      ? Icons.visibility
+                                      : Icons.visibility_off,
+                                ),
                                 onPressed: () {
                                   setState(() {
                                     _isVisible = !_isVisible;
@@ -103,44 +122,39 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             const SizedBox(height: 20),
-            
+
             // Grid menu
             Expanded(
-  child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: GridView.count(
-          crossAxisCount: 3,
-          mainAxisSpacing: 10,
-          crossAxisSpacing: 10,
-          children: [
-            _buildMenuItem(Icons.account_balance_wallet, 'Cek Saldo', CekSaldoScreen(saldo: saldo)),
-            _buildMenuItem(Icons.swap_horiz, 'Transfer', TransferScreen(saldoAwal: saldo, onTransfer: _updateSaldo)),
-            _buildMenuItem(Icons.savings, 'Deposito', null),
-            _buildMenuItem(Icons.payment, 'Pembayaran', null),
-            _buildMenuItem(Icons.attach_money, 'Pinjaman', null),
-            _buildMenuItem(Icons.history, 'Mutasi', null),
-          ],
-        ),
-  ),
-    
-    ),
-            
-            // Bagian informasi tambahan
-            Container(
-              padding: const EdgeInsets.all(10),
-              color: Colors.grey[200],
-              child: Column(
-                children: [
-                  const Text('Informasi Tambahan', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-                  const SizedBox(height: 10),
-                  const Text('Untuk informasi lebih lanjut, silahkan hubungi customer service kami.'),
-                ],
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: GridView.count(
+                  crossAxisCount: 3,
+                  mainAxisSpacing: 10,
+                  crossAxisSpacing: 10,
+                  children: [
+                    _buildMenuItem(
+                      Icons.account_balance_wallet,
+                      'Cek Saldo',
+                      CekSaldoScreen(saldo: saldo),
+                    ),
+                    _buildMenuItem(
+                      Icons.swap_horiz,
+                      'Transfer',
+                      TransferScreen(
+                        saldoAwal: saldo,
+                        onTransfer: _updateSaldo,
+                      ),
+                    ),
+                    _buildMenuItem(Icons.savings, 'Deposito', null),
+                    _buildMenuItem(Icons.payment, 'Pembayaran', null),
+                    _buildMenuItem(Icons.attach_money, 'Pinjaman', null),
+                    _buildMenuItem(Icons.history, 'Mutasi', null),
+                  ],
+                ),
               ),
             ),
-            const SizedBox(height: 10)
-,
             const Spacer(),
-            
+
             // Bagian footer
             Container(
               padding: const EdgeInsets.all(10),
@@ -148,7 +162,10 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Column(
                 children: [
                   const Text('Butuh Bantuan?'),
-                  const Text('0878-1234-1024', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                  const Text(
+                    '0878-1234-1024',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
                   const SizedBox(height: 10),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,

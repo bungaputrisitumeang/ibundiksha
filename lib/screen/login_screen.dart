@@ -48,6 +48,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             if (value == null || value.isEmpty) {
                               return 'Silahkan masukan username';
                             }
+                            if (value != 'Bunga Putri Situmeang') {
+                              return 'Username tidak terdaftar';
+                            }
                             return null;
                           },
                         ),
@@ -76,6 +79,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             }
                             if (value.length < 8) {
                               return 'Password kurang dari 8 karakter';
+                            }
+                            if (value != '12345678') {
+                              return 'Password salah';
                             }
                             return null;
                           },
