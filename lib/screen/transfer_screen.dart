@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ibundiksha/helper/currency_formatter.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/intl.dart';
 
@@ -141,6 +142,7 @@ class _TransferScreenState extends State<TransferScreen> {
             TextField(
               controller: _rekeningTujuanController,
               keyboardType: TextInputType.number,
+              
               decoration: InputDecoration(
                 labelText: 'Nomor Rekening Tujuan',
                 border: OutlineInputBorder(),
@@ -150,6 +152,7 @@ class _TransferScreenState extends State<TransferScreen> {
             TextField(
               controller: _controller,
               keyboardType: TextInputType.number,
+              inputFormatters: [CurrencyInputFormatter()],
               decoration: InputDecoration(
                 labelText: 'Jumlah transfer',
                 border: OutlineInputBorder(),
