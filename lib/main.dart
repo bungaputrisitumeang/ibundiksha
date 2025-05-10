@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:ibundiksha/main.dart';
+// import 'package:ibundiksha/main.dart';
+import 'package:ibundiksha/screen/home_screen.dart';
 import 'package:ibundiksha/screen/login_screen.dart';
 
 
@@ -12,7 +13,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: LoginScreen(),
+      // home: LoginScreen(),
+      home: HomeScreen(),
     );
   }
 }

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:ibundiksha/widget/pop_up_widget.dart';
+import 'package:ibundiksha/screen/deposito_screen.dart';
+import 'package:ibundiksha/screen/pembayaran_screen.dart';
+import 'package:ibundiksha/screen/peminjaman_screen.dart';
+// import 'package:ibundiksha/widget/pop_up_widget.dart';
 import 'package:intl/intl.dart';
 import 'transfer_screen.dart';
 import 'cek_saldo_screen.dart'; // Pastikan import ini ada
@@ -145,9 +148,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         onTransfer: _updateSaldo,
                       ),
                     ),
-                    _buildMenuItem(Icons.savings, 'Deposito', null),
-                    _buildMenuItem(Icons.payment, 'Pembayaran', null),
-                    _buildMenuItem(Icons.attach_money, 'Pinjaman', null),
+                    _buildMenuItem(Icons.savings, 'Deposito', DepositoScreen(saldo: saldo,onDeposito: _updateSaldo,)),
+                    _buildMenuItem(Icons.payment, 'Pembayaran', PembayaranScreen(saldo: saldo, onPembayaran: _updateSaldo,)),
+                    _buildMenuItem(Icons.attach_money, 'Pinjaman', PeminjamanScreen(saldo: saldo, onPeminjaman: _updateSaldo,)),
                     _buildMenuItem(Icons.history, 'Mutasi', null),
                   ],
                 ),
