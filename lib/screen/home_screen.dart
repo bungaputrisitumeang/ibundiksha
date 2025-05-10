@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:ibundiksha/screen/deposito_screen.dart';
+import 'package:ibundiksha/screen/logout_screen.dart';
+import 'package:ibundiksha/screen/mutasi_screen.dart';
 import 'package:ibundiksha/screen/pembayaran_screen.dart';
 import 'package:ibundiksha/screen/peminjaman_screen.dart';
+import 'package:ibundiksha/screen/profile_screen.dart';
 // import 'package:ibundiksha/widget/pop_up_widget.dart';
 import 'package:intl/intl.dart';
 import 'transfer_screen.dart';
@@ -151,7 +154,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     _buildMenuItem(Icons.savings, 'Deposito', DepositoScreen(saldo: saldo,onDeposito: _updateSaldo,)),
                     _buildMenuItem(Icons.payment, 'Pembayaran', PembayaranScreen(saldo: saldo, onPembayaran: _updateSaldo,)),
                     _buildMenuItem(Icons.attach_money, 'Pinjaman', PeminjamanScreen(saldo: saldo, onPeminjaman: _updateSaldo,)),
-                    _buildMenuItem(Icons.history, 'Mutasi', null),
+                    _buildMenuItem(Icons.history, 'Mutasi', MutasiScreen()),
                   ],
                 ),
               ),
@@ -173,9 +176,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      _buildBottomMenuItem(Icons.settings, 'Setting'),
-                      _buildBottomMenuItem(Icons.qr_code, ''),
-                      _buildBottomMenuItem(Icons.person, 'Profile'),
+                      _buildBottomMenuItem(Icons.settings, 'Setting', LogoutScreen()),
+                      _buildBottomMenuItem(Icons.qr_code, '', null),
+                      _buildBottomMenuItem(Icons.person, 'Profile', ProfileScreen()),
                     ],
                   ),
                 ],
@@ -209,14 +212,24 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildBottomMenuItem(IconData icon, String label) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Icon(icon, size: 40, color: Colors.blue[900]),
-        if (label.isNotEmpty) const SizedBox(height: 5),
-        if (label.isNotEmpty) Text(label),
-      ],
+  Widget _buildBottomMenuItem(IconData icon, String label, Widget? destination) {
+    return InkWell(
+       onTap: () {
+        if (destination != null) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => destination),
+          );
+        }
+      },
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(icon, size: 40, color: Colors.blue[900]),
+          if (label.isNotEmpty) const SizedBox(height: 5),
+          if (label.isNotEmpty) Text(label),
+        ],
+      ),
     );
   }
 }
